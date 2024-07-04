@@ -98,15 +98,76 @@ data_transforms = {
  
 ## 2)이미지 로드
 ```py
+# 데이터셋 경로 설정 및 데이터 변환 정의
 data_dir = 'data/hymenoptera_data'
-image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
-                                          data_transforms[x])
+image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),data_transforms[x])
                   for x in ['train', 'val']}
-dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
-                                             shuffle=True, num_workers=4)
+# 데이터로더 정의
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4, shuffle=True, num_workers=4)
               for x in ['train', 'val']}
+# 데이터셋 크기 설정
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
+# 클래스 이름 설정
 class_names = image_datasets['train'].classes
 
+# 장치 설정
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-```
+```  
+- **데이터셋 경로 설정 및 데이터 변환 정의**  
+    - data_dir  
+        - 이미지 데이터가 저장된 디렉토리 경로  
+        ```
+        data
+        └── hymenoptera_data
+            ├── train
+            │   ├── ants
+            │   │   ├── ant1.jpg
+            │   │   └── ...
+            │   └── bees
+            │       ├── bee1.jpg
+            │       └── ...
+            └── val
+                ├── ants
+                │   ├── ant1.jpg
+                │   └── ...
+                └── bees
+                    ├── bee1.jpg
+                    └── ...
+        ```
+    - image_datasets  
+        - 'train'과 'val' 두 개의 데이터셋 정의  
+        - 각 데이터셋은 datasets.ImageFolder를 통해 로드  
+        - 위에서 설정한 data_transforms에 따라 데이터 변환 수행  
+<br/>  
+
+- **데이터로더 정의**  
+    - **대부분의 딥러닝 모델은** 한 번에 전체 데이터셋을 처리하는 것이 아니라 **미니매치 단위로 데이터 처리**
+    - DataLoader는 딥러닝 모델 학습 과정에서 필수적이며, 데이터셋을 효율적으로 관리하고 처리할 수 있는 중요한 도구  
+    ```py
+    dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4, shuffle=True, num_workers=4)
+                  for x in ['train', 'val']}
+    ```  
+    - batch_size: 한 번에 로드할 이미지의 개수  
+    - shuffle=True: 데이터를 미니배치로 로드할 때 매번 섞을지 여부  
+        - 데이터가 순서대로 정렬되어 있는 경우, 모델의 학습이나 일반화 능력에 부정적인 영향을 미칠 수 있음  
+    - num_workers=4: 데이터를 읽어오는 데 사용할 프로세스의 수  
+        - 병렬적으로 데이터를 처리함으로 속도 향상에 도움
+<br/>  
+
+- **데이터셋 크기 설정**  
+    - 데이터셋의 크기를 저장하는 용도로 사용됨  
+    - **에폭(epoch)당 반복 횟수 설정**, 학습 진행 상황 모니터링, 데이터셋의 분할 관리, 모델 평가 등 모델 학습 과정에서 사용  
+<br/>  
+
+- **클래스 이름 설정**  
+    - 모델이 예측한 클래스 인덱스를 해석하는 데 사용  
+    ```py
+    class_names = image_datasets['train'].classes
+    print(class_names) # ['ants', 'bees']
+    ```  
+<br/>  
+
+- **장치 설정**
+    - CUDA 장치가 사용 가능한 경우("cuda:0"), GPU를 사용하도록 설정
+    - 그렇지 않은 경우 CPU를 사용
+ 
