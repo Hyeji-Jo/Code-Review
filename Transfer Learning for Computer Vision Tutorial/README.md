@@ -1,6 +1,6 @@
 # 1.Load Data
 
-## 이미지 변환
+## 1)이미지 변환
 ```py
 from torchvision import transforms
 
@@ -95,7 +95,8 @@ data_transforms = {
     - ImageNet은 대규모의 이미지 데이터셋으로, 다양한 카테고리와 스타일의 이미지를 포함하고 있어 일종의 표준으로 인식됨  
     - 대부분의 사전 학습된 모델들은 ImageNet 데이터셋으로 사전학습되어 적합하다고 여겨짐
  <br/>  
-
+ 
+## 2)이미지 로드
 ```py
 data_dir = 'data/hymenoptera_data'
 image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
