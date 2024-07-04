@@ -28,23 +28,27 @@ data_transforms = {
     ]),
 }
 
-```  
+```
+<br/>  
 - **transforms.RandomResizedCrop(x)**   
     - 이미지를 무작위로 자르고 크기를 x*x 픽셀로 조정  
     - scale, ratio 인수를 사용해 자를 크기 비율의 점위와 가로 세로 비율의 범위도 조율 가능  
     ```py
     transforms.RandomResizedCrop(size=224, scale=(0.08, 1.0), ratio=(0.75, 1.33))
     ```  
+<br/>   
 
 - **transforms.Resize(x)**  
     - 이미지의 크기를 지정된 크기로 조정  
     - 이미지의 짧은 쪽을 기준으로 크기를 조정하며, 비율을 유지  
+<br/>   
 
 - **_RandomResizedCrop Vs. Resize_**  
     - RandomResizedCrop의 경우 크롭 위치와 크기가 무작위로 선택되어 **데이터 증강 효과** 존재  
         - 데이터 증강을 통해 **모델의 일반화 성능 향상**  
         - 무작위 크롭 후 리사이즈  
-    - Resize의 경우 원본 이미지의 비율을 유지하며 크기 조정  
+    - Resize의 경우 원본 이미지의 비율을 유지하며 크기 조정
+<br/>   
 
 - **transforms.CenterCrop(x)**  
     - 이미지 중심에서 지정된 크기만큼 잘라내는 역할   
@@ -54,7 +58,8 @@ data_transforms = {
     ```py
     transforms.CenterCrop((224, 256))
     ```  
-- **Resize()와 CenterCrop()이 함께 사용되어 원본 이미지를 일관된 크기로 변환**  
+- **Resize()와 CenterCrop()이 함께 사용되어 원본 이미지를 일관된 크기로 변환**
+<br/>  
 
 - **transforms.RandomHorizontalFlip()**  
     - 이미지를 좌우로 무작위로 뒤집으며, 기본적으로 50%의 확률로 뒤집힘  
@@ -62,7 +67,8 @@ data_transforms = {
     - **데이터 다양성 증가, 모델 일반화 능력 향상, 비대칭적인 특성 보정, 훈련 데이터 증가** 등의 효과 존재  
     ```py
     transforms.RandomHorizontalFlip(p=0.7)  # 70% 확률로 좌우 반전
-    ```  
+    ```
+<br/>  
 
 - **transforms.ToTensor()**  
     - 입력으로 들어온 데이터의 타입을 확인하고, PyTorch 텐서로 변환  
