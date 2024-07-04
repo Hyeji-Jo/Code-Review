@@ -28,7 +28,7 @@ data_transforms = {
     ]),
 }
 
-```
+```  
 <br/>  
 - **transforms.RandomResizedCrop(x)**   
     - 이미지를 무작위로 자르고 크기를 x*x 픽셀로 조정  
