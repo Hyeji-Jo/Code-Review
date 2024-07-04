@@ -28,8 +28,8 @@ data_transforms = {
     ]),
 }
 
-```  
-<br/>  
+```   
+  
 - **transforms.RandomResizedCrop(x)**   
     - 이미지를 무작위로 자르고 크기를 x*x 픽셀로 조정  
     - scale, ratio 인수를 사용해 자를 크기 비율의 점위와 가로 세로 비율의 범위도 조율 가능  
