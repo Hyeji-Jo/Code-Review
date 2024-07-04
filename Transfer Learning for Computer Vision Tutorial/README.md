@@ -28,22 +28,44 @@ data_transforms = {
     ]),
 }
 
-```
-- **transforms.RandomResizedCrop(x)**  
+```  
+- **transforms.RandomResizedCrop(x)**   
     - 이미지를 무작위로 자르고 크기를 x*x 픽셀로 조정  
     - scale, ratio 인수를 사용해 자를 크기 비율의 점위와 가로 세로 비율의 범위도 조율 가능  
     ```py
     transforms.RandomResizedCrop(size=224, scale=(0.08, 1.0), ratio=(0.75, 1.33))
-    ```
+    ```  
 
 - **transforms.Resize(x)**  
     - 이미지의 크기를 지정된 크기로 조정  
     - 이미지의 짧은 쪽을 기준으로 크기를 조정하며, 비율을 유지  
 
-- **__RandomResizedCrop Vs. Resize__**
-```
+- **_RandomResizedCrop Vs. Resize_**  
     - RandomResizedCrop의 경우 크롭 위치와 크기가 무작위로 선택되어 **데이터 증강 효과** 존재  
         - 데이터 증강을 통해 **모델의 일반화 성능 향상**  
         - 무작위 크롭 후 리사이즈  
-    - Resize의 경우 원본 이미지의 비율을 유지하며 크기 조정
-```
+    - Resize의 경우 원본 이미지의 비율을 유지하며 크기 조정  
+
+- **transforms.CenterCrop(x)**  
+    - 이미지 중심에서 지정된 크기만큼 잘라내는 역할   
+    - 이미지의 크기를 줄이거나 특정 부분을 강조할 때 사용  
+    - 주로 검증 데이터셋에 사용  
+    - 직사각형 크기로도 자를 수 있음  
+    ```py
+    transforms.CenterCrop((224, 256))
+    ```  
+- **Resize()와 CenterCrop()이 함께 사용되어 원본 이미지를 일관된 크기로 변환**  
+
+- **transforms.RandomHorizontalFlip()**  
+    - 이미지를 좌우로 무작위로 뒤집으며, 기본적으로 50%의 확률로 뒤집힘  
+    - 'p' 매개변수를 통해 사용자가 원하는 확률을 지정할 수도 있음  
+    - **데이터 다양성 증가, 모델 일반화 능력 향상, 비대칭적인 특성 보정, 훈련 데이터 증가** 등의 효과 존재  
+    ```py
+    transforms.RandomHorizontalFlip(p=0.7)  # 70% 확률로 좌우 반전
+    ```  
+
+- **transforms.ToTensor()**  
+    - 입력으로 들어온 데이터의 타입을 확인하고, PyTorch 텐서로 변환  
+        - 기본적으로 PIL 이미지는 (높이, 너비, 채널) 순서로 되어 있지만, ToTensor를 적용하면 (채널, 높이, 너비) 순서로 변경  
+        - PIL 이미지의 경우 픽셀 값 범위를 0에서 255 사이에서 0에서 1 사이로 조정 (**픽셀 값 범위 조정**)  
+            - 넘파이의 경우 이미 0에서 1사이의 범위일 수 있음  
