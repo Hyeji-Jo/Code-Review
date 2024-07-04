@@ -90,8 +90,22 @@ data_transforms = {
     # 변환 함수 정의
     transforms.Normalize(mean=mean, std=std)
     ```  
-- **_transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])_**를 **보편적으로 활용**  
+- **transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])를 보편적으로 활용**  
     - 이는 **ImageNet 데이터셋에서 계산된 평균과 표준편차**  
     - ImageNet은 대규모의 이미지 데이터셋으로, 다양한 카테고리와 스타일의 이미지를 포함하고 있어 일종의 표준으로 인식됨  
     - 대부분의 사전 학습된 모델들은 ImageNet 데이터셋으로 사전학습되어 적합하다고 여겨짐
  <br/>  
+
+```py
+data_dir = 'data/hymenoptera_data'
+image_datasets = {x: datasets.ImageFolder(os.path.join(data_dir, x),
+                                          data_transforms[x])
+                  for x in ['train', 'val']}
+dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=4,
+                                             shuffle=True, num_workers=4)
+              for x in ['train', 'val']}
+dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
+class_names = image_datasets['train'].classes
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+```
